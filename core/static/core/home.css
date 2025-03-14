@@ -98,6 +98,13 @@
     color: #205781;  /* Darker shade on hover */
 }
 
+.profile-image {
+    width: 40px;  /* Adjust as needed */
+    height: 40px; /* Ensure width and height are the same */
+    border-radius: 50%; /* Makes the image round */
+    object-fit: cover; /* Ensures the image fills the space properly */
+    margin-right: 10px
+}
 
 /* Date style */
 .post-date {
