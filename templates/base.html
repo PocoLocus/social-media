@@ -22,7 +22,9 @@
         <a href="{% url 'create_post' %}">Create Post</a>
         <div class="top-right-nav">
           <a href="{% url 'check_user_profile' user.username %}">
-              <img class="profile-image" src="{{ user.image.url }}">
+              {% if user.image %}
+                <img class="profile-image" src="{{ user.image.url }}">
+              {% endif %}
               {{ user.username }}
           </a>
           <form action="{% url 'logout' %}" method="POST">
