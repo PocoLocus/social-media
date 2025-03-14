@@ -69,7 +69,7 @@
                         <ul class="comment-list">
                             {% for comment in post.comments.all %}
                                 <li class="comment-item">
-                                    <img class="profile-image" src="{{ post.author.image.url }}">
+                                    <img class="profile-image" src="{{ comment.commenter.image.url }}">
                                     <a href="{% url 'check_user_profile' comment.commenter.username %}">{{ comment.commenter.username }}</a>: {{ comment.content }}
                                 </li>
                             {% endfor %}
