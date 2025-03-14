@@ -11,8 +11,8 @@ urlpatterns = [
     path("accounts/signup", views.signup, name="signup"),
     path("home", views.HomeView.as_view(), name="home"),
     path("create-post", views.create_post, name="create_post"),
-    path("<slug:username>", views.CheckUserProfileView.as_view(), name="check_user_profile"),
-    path("tag:<str:tag_name>", views.SortByTagView.as_view(), name="sort_by_tag"),
+    path("user/<slug:username>", views.CheckUserProfileView.as_view(), name="check_user_profile"),
+    path("tag/<str:tag_name>", views.SortByTagView.as_view(), name="sort_by_tag"),
     path("edit-post/<int:post_id>", views.edit_post, name="edit_post"),
     path("delete-post/<int:post_id>", views.delete_post, name="delete_post"),
 ]
