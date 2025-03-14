@@ -23,5 +23,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("accounts/", include("django.contrib.auth.urls")),
     path("", include("core.urls")),
-]   + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
-    + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
+
+# Add static file handling for both media and static files
+if settings.DEBUG:  # Make sure this is only for development
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

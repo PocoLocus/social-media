@@ -133,8 +133,6 @@ STATIC_URL = 'static/'
 MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = "/media/"
 
-if not DEBUG:
-    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
