@@ -1,0 +1,12 @@
+asgiref==3.8.1
+dj-database-url==2.3.0 #for postgres online db
+Django==5.1.7
+django-crispy-forms==2.3
+gunicorn==23.0.0 #for web service
+packaging==24.2
+pillow==11.1.0
+psycopg2-binary==2.9.10 #for postgres online db
+python-dotenv==1.0.1
+sqlparse==0.5.3
+typing_extensions==4.12.2
+tzdata==2025.1

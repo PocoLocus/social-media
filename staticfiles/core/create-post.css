@@ -1,0 +1,59 @@
+/* Title styling */
+.title-box {
+    background-color: #4F959D;  /* Green background color for the box */
+    padding: 20px;              /* Add some padding around the text */
+    text-align: center;         /* Center the text inside the box */
+    width: 100%;         /* Makes the box width adjust to content */
+    margin: 0 auto;             /* Center the box horizontally */
+    margin-bottom: 10px;        /* Adds margin to the bottom of the box */
+}
+
+.page-title {
+    color: white;              /* Text color */
+    margin: 0;                 /* Remove default margin from h1 */
+    font-size: 2em;            /* You can adjust the size of the title */
+}
+
+/* Overall form styling */
+.create-post-form {
+    max-width: 400px; /* Limit form width */
+    margin: 0 auto; /* Center form on the page */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form field styling */
+.form-field {
+    margin-bottom: 15px;
+}
+
+.form-label {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+/* Button styling */
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+}
+
+.submit-btn:focus {
+    outline: none;
+}

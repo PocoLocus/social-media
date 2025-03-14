@@ -1,0 +1,56 @@
+body {
+    font-family: "Poppins", sans-serif;
+}
+
+.top-nav {
+    background-color: #205781;
+    overflow: hidden;
+}
+
+.top-nav a,
+.top-nav button {
+    all: unset;
+    float: left;
+    color: #FFFFFF;
+    text-align: center;
+    text-decoration: none;
+    font-size: 30px;
+    padding: 10px 40px;
+    cursor: pointer;
+}
+
+.top-nav a:hover,
+.top-nav button:hover {
+    background-color: #4F959D;
+    color: black;
+}
+
+.top-right-nav {
+    float: right;
+    display: flex;
+    align-items: center;
+}
+
+.profile-image {
+    width: 40px;  /* Adjust as needed */
+    height: 40px; /* Ensure width and height are the same */
+    border-radius: 50%; /* Makes the image round */
+    object-fit: cover; /* Ensures the image fills the space properly */
+    margin-right: 10px
+}
+
+/* Title styling */
+.title-box {
+    background-color: #4d8d94;  /* Green background color for the box */
+    padding: 20px;              /* Add some padding around the text */
+    text-align: center;         /* Center the text inside the box */
+    width: 100%;         /* Makes the box width adjust to content */
+    margin: 0 auto;             /* Center the box horizontally */
+    margin-bottom: 10px;        /* Adds margin to the bottom of the box */
+}
+
+.page-title {
+    color: white;              /* Text color */
+    margin: 0;                 /* Remove default margin from h1 */
+    font-size: 2em;            /* You can adjust the size of the title */
+}

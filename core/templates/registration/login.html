@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Log In{% endblock %}
+
+{% block css_files %}<link rel="stylesheet" href="{% static 'core/login.css' %}">{% endblock %}
+
+{% block content %}
+    <div class="title-box">
+        <h1 class="page-title">Log In</h1>
+    </div>
+
+  {% for error in form.non_field_errors %}
+      <div class="alert alert-danger">
+          {{ error }}
+      </div>
+  {% endfor %}
+
+  <form method="POST" class="login-form">
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="form-field">
+        <label class="form-label">{{ field.label }}</label>
+        {{ field }}
+      </div>
+    {% endfor %}
+    <p>Don't have an account? Create one <a href="{% url 'signup' %}">HERE</a>!</p>
+    <p>Go back to <a href="{% url 'welcome' %}">welcome page</a>.</p>
+    <button type="submit" class="submit-btn">Log In</button>
+</form>
+{% endblock %}

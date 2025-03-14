@@ -1,0 +1,56 @@
+.welcome-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.content-box {
+    background-color: #f9f9f9; /* Grey background for both the image and text */
+    padding: 20px;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds shadow for depth */
+    max-width: 800px; /* Limit the width */
+    margin: 0 auto; /* Center the content */
+}
+
+.welcome-image {
+    width: 100%;  /* Adjust width as needed */
+    max-width: 600px;  /* Controls the maximum size of the image */
+    height: auto;
+    margin-bottom: 20px;  /* Adds space below the image */
+    border-radius: 5px; /* Optional: Rounds image corners */
+}
+
+.text-box {
+    text-align: center;
+}
+
+.text-box h1 {
+    margin-top: 0;
+    color: #333;
+}
+
+.text-box p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #666;
+}
+
+.button-container {
+    margin-top: 30px;
+}
+
+.button {
+    display: inline-block;
+    padding: 15px 30px;
+    margin: 10px;
+    font-size: 18px;
+    color: white;
+    background-color: #007bff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}

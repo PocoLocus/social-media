@@ -1,0 +1,316 @@
+.content-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.tags-section {
+    width: 16%;  /* Adjust as needed */
+    position: sticky;
+    top: 0;
+    margin-top: 10px;
+    padding: 10px;
+    margin-right: 50px;
+    background-color: #a7d5c7;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+    height: 45vh;  /* Keeps it fixed to the page */
+    overflow-y: auto; /* Allow scrolling only if tags exceed the container height */
+    border-radius: 8px;
+}
+
+.tags-section h3 {
+    font-size: 20px;
+    text-align: center;
+}
+
+.tags-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.tag-item {
+    margin-bottom: 10px; /* Adds space between each tag item */
+}
+
+.tag-button {
+    background-color: #f0f0f0; /* Light grey background */
+    border: 1px solid #ddd; /* Border around the button */
+    padding: 5px 10px; /* Padding inside the button */
+    text-align: right; /* Align text to the left inside the button */
+    display: block; /* Makes the button take up the full width of the container */
+    width: 100%; /* Makes button stretch across the full width of its container */
+    color: inherit; /* Inherits text color */
+    text-decoration: none; /* Removes text underline */
+    font: inherit; /* Inherits the font style */
+    cursor: pointer; /* Changes cursor on hover */
+}
+
+.tag-button:hover {
+    background-color: #e0e0e0; /* Slightly darker grey on hover */
+    text-decoration: none; /* Underline on hover */
+}
+
+/* Center the post list */
+.post-list {
+    list-style: none; /* Remove bullet points */
+    padding: 0;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%; /* Adjust width as needed */
+}
+
+/* Style each post box */
+.post-item {
+    background-color: #a7d5c7; /*  background */
+    padding: 20px;
+    margin: 10px 0;
+    width: 100%; /* Full width of container */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+/* Post header (Author & Date) */
+.post-header {
+    display: flex;
+    justify-content: space-between; /* Align author left and date right */
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid black; /* Thin black separator line */
+}
+
+/* Author style */
+.post-author {
+    font-size: 1em;
+    color: #333;
+}
+
+.post-author a {
+    color: #007bff;  /* Link color */
+    text-decoration: none;  /* Remove underline */
+}
+
+.post-author a:hover {
+    text-decoration: underline;  /* Add underline on hover */
+    color: #205781;  /* Darker shade on hover */
+}
+
+
+/* Date style */
+.post-date {
+    color: #777;
+}
+
+/* Post title */
+.post-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 5px 0;
+    color: #222;
+}
+
+/* Post content */
+.post-content {
+    font-size: 20px;
+    color: #444;
+    text-align: left;
+}
+
+.post-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.post-tags {
+    font-style: italic;
+    color: #646567;
+}
+
+.post-tags a {
+    display: inline;  /* Make each paragraph element inline */
+    margin-right: 5px; /* Optional: Add space between tags */
+    color: #007bff;  /* Link color */
+    text-decoration: none;  /* Remove underline */
+}
+
+.post-edit {
+    display: flex;
+}
+
+.post-edit button {
+    color: white;               /* White text */
+    cursor: pointer;           /* Pointer cursor on hover */
+    border: none;               /* Remove the border */
+    border-radius: 4px;         /* Slightly rounded corners */
+    display: flex;              /* Use flexbox for alignment */
+    align-items: center;        /* Vertically center content */
+    justify-content: center;    /* Horizontally center content */
+    width: 40px;                /* Set a fixed width for the button */
+    height: 40px;               /* Set a fixed height for the button */
+    padding: 0;                 /* Remove extra padding */
+    margin-right: 10px;
+}
+
+.post-edit button img {
+    width: 20px;  /* Set the width of the image */
+    height: 20px; /* Set the height of the image */
+}
+
+.button-edit {
+    background-color: #d8e04c;
+}
+
+.button-delete {
+    background-color: #e66d6d;
+}
+
+.button-confirm-delete {
+    background-color: #e66d6d;
+    width: 100%; /* Make the button take up the full width of the popup */
+    padding: 10px;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Optional: gives the button a subtle shadow */
+    display: inline-block; /* Makes sure it behaves like a block element */
+    margin: 10px 0; /* Optional: adds spacing around the button */
+}
+
+.button-confirm-delete:hover {
+    background-color: #c55c5c; /* Darker shade on hover */
+}
+
+.messages-container {
+    display: flex;
+    justify-content: center;  /* Centers the messages horizontally */
+    align-items: center;      /* Centers the messages vertically (if you want) */
+    width: 100%;              /* Ensure the container takes the full width */
+    margin-top: 10px;         /* Optional, adds space at the top */
+}
+
+.alert {
+    width: 50%;               /* Adjust the width of the message box */
+    text-align: center;       /* Center the text inside the alert box */
+    padding: 15px;
+    border-radius: 5px;
+}
+
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.post-comments {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 2px solid white;
+}
+
+.comment-list {
+    list-style: none; /* Remove bullet points */
+    padding: 0;
+    margin: 0 auto;
+    font-size: 16px;
+}
+
+.comment-item {
+    font-size: 1em;
+    color: #333;
+}
+
+.comment-item a {
+    color: #007bff;  /* Link color */
+    text-decoration: none;  /* Remove underline */
+}
+
+.comment-item a:hover {
+    text-decoration: underline;  /* Add underline on hover */
+    color: #205781;  /* Darker shade on hover */
+}
+
+/* Form field styling */
+.form-field {
+    margin-top: 15px;
+    display: flex;
+}
+
+
+textarea {
+    width: 100%;   /* Adjust width as needed, e.g., '100%' or specific px value */
+    height: 30px; /* Adjust height as needed */
+    margin-right: 10px
+}
+
+
+/* Button styling */
+.submit-btn {
+    width: 15%;
+    padding: 0px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+}
+
+.submit-btn:focus {
+    outline: none;
+}
+
+
+
+
+/* The background overlay */
+.popup {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+}
+
+/* The popup content box */
+.popup-content {
+    background: white;
+    padding: 20px;
+    width: 300px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+    font-size: 18px
+}
+
+/* The close button (X) */
+.closePopup {
+    position: absolute;
+    top: 1px;
+    right: 10px;
+    font-size: 25px;
+    cursor: pointer;
+    color: #333;
+}

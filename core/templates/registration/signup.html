@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block css_files %}<link rel="stylesheet" href="{% static 'core/signup.css' %}">{% endblock %}
+
+{% block content %}
+    <div class="title-box">
+        <h1 class="page-title">Sign Up</h1>
+    </div>
+
+  {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+              {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+  {% endif %}
+
+  <form method="POST" class="signup-form" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="form-field">
+        <label class="form-label">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}
+          <ul class="error-list">
+            {% for error in field.errors %}
+              <li class="error">{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endfor %}
+    <p>Already have an account? Log in <a href="{% url 'login' %}">HERE</a>!</p>
+    <p>Go back to <a href="{% url 'welcome' %}">welcome page</a>.</p>
+    <button type="submit" class="submit-btn">Sign Up</button>
+  </form>
+{% endblock %}
