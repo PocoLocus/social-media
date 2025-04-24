@@ -1,5 +1,5 @@
 Overview:
-This project is a minimalistic social media platform built with Django framework, allowing users to sign up, create posts, and engage with others through comments and tags. The platform incorporates authentication, user profile management, and content categorization using tags. The goal is to provide a simple yet functional foundation for social interactions within an online community.
+This project is a minimalistic social media platform built with Django framework, that allows usersto sign up, create posts and engage with others through comments. It integrates features suchas user registration and authentication, user profile management and content creation andcategorization using tags.
 
 Key Features:
 - User Authentication & Profiles: Custom user model with profile pictures and authentication using Django auth app (signup, login, logout).
