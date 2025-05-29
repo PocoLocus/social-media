@@ -16,11 +16,6 @@ from django.contrib.auth.models import User
 class WelcomeView(TemplateView):
     template_name = "core/welcome.html"
 
-# --- FBV alternative --- #
-# def welcome(request):
-#     return render(request, "core/welcome.html")
-
-
 def signup(request):
     if request.method == "POST":
         form = SignupForm(request.POST, request.FILES)
@@ -36,23 +31,6 @@ def signup(request):
     return render(request, "registration/signup.html", context={
         "form": form
     })
-
-# --- CBV alternative (more complicated, doesn't work) --- #
-# class SignupView(SuccessMessageMixin, CreateView):
-#     template_name = "registration/signup.html"
-#     form_class = SignupForm
-#     success_url = reverse_lazy("home")
-#     success_message = "Your account has been successfully created!"
-#
-#     def form_valid(self, form):
-#         self.object = form.save()
-#         login(self.request, self.object)
-#         return super().form_valid(form)
-#
-#     def form_invalid(self, form):
-#         messages.error(self.request, "Error creating the account. Please check the form.")
-#         return super().form_invalid(form)
-
 
 class HomeView(LoginRequiredMixin, View):
     login_url = "login"
@@ -83,23 +61,6 @@ class HomeView(LoginRequiredMixin, View):
             "form": form
         })
 
-# --- CBV alternative (without Comments) --- #
-# class HomeView(LoginRequiredMixin, ListView):
-#     login_url = "login"
-#     template_name = "core/home.html"
-#     model = Post
-#     context_object_name = "all_posts"
-#     ordering = ["-updated_at"]
-
-# --- FBV alternative (without Comments) --- #
-# @login_required(login_url="login")
-# def home(request):
-#     all_posts = Post.objects.all().order_by("-updated_at")
-#     return render(request, "core/home.html", context={
-#         "all_posts": all_posts
-#     })
-
-
 class CheckUserProfileView(HomeView):
     def get(self, request, username):
         posts = Post.objects.filter(author__username=username).order_by("-updated_at")
@@ -111,15 +72,6 @@ class CheckUserProfileView(HomeView):
             "tags": tags,
             "page_title": f"{username}'s profile"
         })
-
-# --- FBV alternative --- #
-# @login_required(login_url="login")
-# def check_user_profile(request, username):
-#     user_to_check = get_object_or_404(User, username=username)
-#     return render(request, "core/check-user-profile.html", context={
-#         "user_to_check": user_to_check
-#     })
-
 
 class SortByTagView(HomeView):
     def get(self, request, tag_name):
@@ -151,25 +103,6 @@ def create_post(request):
         "form": form
     })
 
-# --- CBV alternative (more complicated) --- #
-# class CreatePostView(LoginRequiredMixin, CreateView):
-#     template_name = "core/create-post.html"
-#     form_class = PostForm
-#     success_url = reverse_lazy("home")
-#
-#     def form_valid(self, form):
-#         new_post = form.save(commit=False)
-#         new_post.author = self.request.user
-#         new_post.save()
-#         form.save_m2m() # Save the tags (ManyToManyField)
-#         messages.success(self.request, "Your post has been successfully submitted!")
-#         return super().form_valid(form)
-#
-#     def form_invalid(self, form):
-#         messages.error(self.request, "Error creating the post. Please check the form.")
-#         return super().form_invalid(form)
-
-
 @login_required(login_url="login")
 def edit_post(request, post_id):
     post_to_edit = get_object_or_404(Post, id=post_id)
@@ -188,7 +121,6 @@ def edit_post(request, post_id):
     return render(request, "core/edit-post.html", context={
         "form": form
     })
-
 
 @login_required(login_url="login")
 def delete_post(request, post_id):
