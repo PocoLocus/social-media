@@ -4,10 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Post, Comment, CustomUser
 
 
-class SignupForm(UserCreationForm):
-    # Email is not required by default in Django
-    email = forms.EmailField(required=True)
-
+class CustomSignupForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = ["username", "email", "image", "password1", "password2"]
@@ -19,10 +16,14 @@ class SignupForm(UserCreationForm):
             raise forms.ValidationError("This email address is already in use.")
         return email
 
+class LoginForm(forms.Form):
+    credential = forms.CharField(label="Username or Email")
+    password = forms.CharField(widget=forms.PasswordInput())
+
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ["title", "content", "tags"]
+        fields = ["content", "tags"]
 
 class CommentForm(forms.ModelForm):
     class Meta:

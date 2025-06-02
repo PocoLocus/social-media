@@ -1,24 +1,24 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic.base import TemplateView
-from django.views.generic.edit import CreateView
+from django.contrib.auth.views import PasswordResetView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Q
 
-from .forms import SignupForm, PostForm, CommentForm
-from .models import Post, Tag
-from django.contrib.auth.models import User
+from .forms import CustomSignupForm, LoginForm, PostForm, CommentForm
+from .models import Post, Tag, CustomUser
 
 
-class WelcomeView(TemplateView):
-    template_name = "core/welcome.html"
+def welcome(request):
+    return render(request, "core/welcome.html")
 
 def signup(request):
     if request.method == "POST":
-        form = SignupForm(request.POST, request.FILES)
+        form = CustomSignupForm(request.POST, request.FILES)
         if form.is_valid():
             new_user = form.save()
             login(request, new_user)
@@ -27,10 +27,45 @@ def signup(request):
         else:
             messages.error(request, "Error creating the account. Please check the form.")
     else:
-        form = SignupForm()
+        form = CustomSignupForm()
     return render(request, "registration/signup.html", context={
         "form": form
     })
+
+# It could also be done with the use of auth built-in AuthenticationForm.
+def login_view(request):
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            credential = form.cleaned_data["credential"]
+            password = form.cleaned_data["password"]
+            try:
+                user = CustomUser.objects.get(Q(username=credential) | Q(email=credential))
+            except:
+                messages.error(request, "Wrong username or email.")
+            else:
+                user = authenticate(request, username=user.username, password=password)
+                if user is not None:
+                    login(request, user)
+                    messages.success(request, "Your have successfully logged in!")
+                    return redirect("home")
+                else:
+                    messages.error(request, "Wrong password.")
+    else:
+        form = LoginForm()
+    return render(request, "registration/login.html", context={
+        "form": form
+    })
+
+class CustomPasswordResetView(PasswordResetView, SuccessMessageMixin):
+    template_name = "registration/password-reset.html"
+    email_template_name = "registration/password-reset-email.html"
+    subject_template_name = "registration/password-reset-subject.txt"
+    success_message = "We've emailed you instructions for setting your password, " \
+                      "if an account exists with the email you entered. You should receive them shortly." \
+                      " If you don't receive an email, " \
+                      "please make sure you've entered the address you registered with, and check your spam folder."
+    success_url = reverse_lazy("welcome")
 
 class HomeView(LoginRequiredMixin, View):
     login_url = "login"

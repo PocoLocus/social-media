@@ -10,11 +10,15 @@
         <h1 class="page-title">Log In</h1>
     </div>
 
-  {% for error in form.non_field_errors %}
-      <div class="alert alert-danger">
-          {{ error }}
-      </div>
-  {% endfor %}
+  {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+              {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+  {% endif %}
 
   <form method="POST" class="login-form">
     {% csrf_token %}
@@ -24,8 +28,10 @@
         {{ field }}
       </div>
     {% endfor %}
+    <a class="forgot-password" href="{% url 'password_reset' %}">Forgot your password?</a>
+    <hr>
     <p>Don't have an account? Create one <a href="{% url 'signup' %}">HERE</a>!</p>
     <p>Go back to <a href="{% url 'welcome' %}">welcome page</a>.</p>
     <button type="submit" class="submit-btn">Log In</button>
-</form>
+  </form>
 {% endblock %}

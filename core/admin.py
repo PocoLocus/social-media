@@ -9,7 +9,7 @@ class CustomUserAdmin(UserAdmin):
 
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ["title", "author", "created_at", "updated_at", "get_tags"]
+    list_display = ["author", "created_at", "updated_at", "get_tags"]
 
 
 admin.site.register(CustomUser, CustomUserAdmin)

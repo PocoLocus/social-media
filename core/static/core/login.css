@@ -21,6 +21,11 @@
     color: #333;
 }
 
+.forgot-password {
+    font-size: 0.875rem; /* small text */
+    text-decoration: none; /* remove underline */
+}
+
 /* Button styling */
 .submit-btn {
     width: 100%;
@@ -40,4 +45,30 @@
 
 .submit-btn:focus {
     outline: none;
+}
+
+.messages-container {
+    display: flex;
+    justify-content: center;  /* Centers the messages horizontally */
+    align-items: center;      /* Centers the messages vertically (if you want) */
+    width: 100%;              /* Ensure the container takes the full width */
+    margin-top: 10px;         /* Optional, adds space at the top */
+}
+
+.alert {
+    width: 50%;               /* Adjust the width of the message box */
+    text-align: center;       /* Center the text inside the alert box */
+    padding: 15px;
+    border-radius: 5px;
+}
+
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
 }
