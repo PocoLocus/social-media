@@ -14,10 +14,13 @@ urlpatterns = [
     path("password-reset-complete", auth_views.PasswordResetCompleteView.as_view(template_name="registration/password-reset-complete.html"), name="password_reset_complete"),
 
     path("", views.welcome, name="welcome"),
-    path("home", views.HomeView.as_view(), name="home"),
-    path("create-post", views.create_post, name="create_post"),
+    path("chitchat", views.ChitChatView.as_view(), name="chitchat"),
+    path("post/<slug:post_id>", views.CheckPost.as_view(), name="check_post"),
     path("user/<slug:username>", views.CheckUserProfileView.as_view(), name="check_user_profile"),
     path("tag/<str:tag_name>", views.SortByTagView.as_view(), name="sort_by_tag"),
+
+    path("create-post", views.create_post, name="create_post"),
     path("edit-post/<int:post_id>", views.edit_post, name="edit_post"),
     path("delete-post/<int:post_id>", views.delete_post, name="delete_post"),
+    path("like-post/<int:post_id>", views.like_post, name="like_post")
 ]

@@ -4,8 +4,54 @@
     margin: 20px;
 }
 
+.activity-section {
+    width: 20%;  /* Adjust as needed */
+    position: sticky;
+    top: 0;
+    margin-top: 10px;
+    padding: 10px;
+    margin-right: 50px;
+    background-color: #a7d5c7;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+    height: 45vh;  /* Keeps it fixed to the page */
+    overflow-y: auto; /* Allow scrolling only if tags exceed the container height */
+    border-radius: 8px;
+}
+
+.activity-section h3 {
+    font-size: 20px;
+    text-align: center;
+}
+
+.activity-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.activity-item {
+    margin-bottom: 10px; /* Adds space between each tag item */
+}
+
+.activity-button {
+    background-color: #f0f0f0; /* Light grey background */
+    border: 1px solid #ddd; /* Border around the button */
+    padding: 5px 10px; /* Padding inside the button */
+    text-align: left; /* Align text to the left inside the button */
+    display: block; /* Makes the button take up the full width of the container */
+    width: 100%; /* Makes button stretch across the full width of its container */
+    color: inherit; /* Inherits text color */
+    text-decoration: none; /* Removes text underline */
+    font: inherit; /* Inherits the font style */
+    cursor: pointer; /* Changes cursor on hover */
+}
+
+.activity-button:hover {
+    background-color: #e0e0e0; /* Slightly darker grey on hover */
+    text-decoration: none; /* Underline on hover */
+}
+
 .tags-section {
-    width: 16%;  /* Adjust as needed */
+    width: 20%;  /* Adjust as needed */
     position: sticky;
     top: 0;
     margin-top: 10px;
@@ -36,7 +82,7 @@
     background-color: #f0f0f0; /* Light grey background */
     border: 1px solid #ddd; /* Border around the button */
     padding: 5px 10px; /* Padding inside the button */
-    text-align: right; /* Align text to the left inside the button */
+    text-align: left; /* Align text to the left inside the button */
     display: block; /* Makes the button take up the full width of the container */
     width: 100%; /* Makes button stretch across the full width of its container */
     color: inherit; /* Inherits text color */
@@ -50,6 +96,45 @@
     text-decoration: none; /* Underline on hover */
 }
 
+.main-column {
+    width: 80%; /* or whatever fits your layout */
+    display: flex;
+    flex-direction: column;
+}
+
+.post-search,
+.post-create {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.post-create-button {
+    background: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.post-create-button:hover {
+    background-color: #0056b3;
+}
+
+.no-posts {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 500;
+    color: #555;
+    margin-top: 40px;
+}
+
 /* Center the post list */
 .post-list {
     list-style: none; /* Remove bullet points */
@@ -58,7 +143,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 70%; /* Adjust width as needed */
+    width: 80%; /* Adjust width as needed */
 }
 
 /* Style each post box */
@@ -106,22 +191,37 @@
     margin-right: 10px
 }
 
+.post-check {
+    font-size: 1em;
+    color: #333;
+}
+
+.post-check a {
+    color: #007bff;  /* Link color */
+    text-decoration: none;  /* Remove underline */
+}
+
+.post-check a:hover {
+    text-decoration: underline;  /* Add underline on hover */
+    color: #205781;  /* Darker shade on hover */
+}
+
 /* Date style */
 .post-date {
     color: #777;
 }
 
-/* Post title */
-.post-title {
-    font-size: 22px;
-    font-weight: bold;
-    margin: 5px 0;
-    color: #222;
-}
-
 /* Post content */
 .post-content {
+    font-size: 24px;
+    font-weight: bold
+    color: #444;
+    text-align: left;
+}
+
+.post-likes {
     font-size: 20px;
+    font-weight: normal
     color: #444;
     text-align: left;
 }
@@ -132,6 +232,7 @@
 }
 
 .post-tags {
+    font-size: 14px;
     font-style: italic;
     color: #646567;
 }
@@ -172,6 +273,15 @@
 
 .button-delete {
     background-color: #e66d6d;
+}
+
+.button-like {
+    background-color: #2FBE2F;
+}
+
+.button-like-clicked {
+    background-color: grey;
+    opacity: 0.7;
 }
 
 .button-confirm-delete {

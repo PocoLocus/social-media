@@ -18,8 +18,8 @@
 <body>
   {% if user.is_authenticated %}
       <div class="top-nav">
-        <a href="{% url 'home' %}">Home</a>
-        <a href="{% url 'create_post' %}">Create Post</a>
+        <a href="{% url 'chitchat' %}">ChitChat</a>
+        <a href="{% url 'create_post' %}">Under construction</a>
         <div class="top-right-nav">
           <a href="{% url 'check_user_profile' user.username %}">
               {% if user.image %}

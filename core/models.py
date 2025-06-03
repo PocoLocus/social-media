@@ -30,6 +30,8 @@ class Post(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="posts")
     content = models.TextField()
     tags = models.ManyToManyField(Tag)
+    likes = models.IntegerField(default=0)
+    liked_by = models.ManyToManyField(CustomUser)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -46,6 +48,7 @@ class Comment(models.Model):
     commenter = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     content = models.TextField()
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.content} ({self.commenter})"

@@ -10,7 +10,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 
 from .forms import CustomSignupForm, LoginForm, PostForm, CommentForm
-from .models import Post, Tag, CustomUser
+from .models import Post, Tag, CustomUser, Comment
 
 
 def welcome(request):
@@ -23,7 +23,7 @@ def signup(request):
             new_user = form.save()
             login(request, new_user)
             messages.success(request, "Your account has been successfully created!")
-            return redirect("home")
+            return redirect("chitchat")
         else:
             messages.error(request, "Error creating the account. Please check the form.")
     else:
@@ -48,7 +48,7 @@ def login_view(request):
                 if user is not None:
                     login(request, user)
                     messages.success(request, "Your have successfully logged in!")
-                    return redirect("home")
+                    return redirect("chitchat")
                 else:
                     messages.error(request, "Wrong password.")
     else:
@@ -67,21 +67,29 @@ class CustomPasswordResetView(PasswordResetView, SuccessMessageMixin):
                       "please make sure you've entered the address you registered with, and check your spam folder."
     success_url = reverse_lazy("welcome")
 
-class HomeView(LoginRequiredMixin, View):
+class ChitChatView(LoginRequiredMixin, View):
     login_url = "login"
 
+    def get_base_context(self):
+        return {
+            "tags": Tag.objects.all(),
+            "comments": Comment.objects.all().order_by("-created_at")[:3],
+            "form": CommentForm()
+        }
+
+    def get_filtered_posts(self, request, base_queryset):
+        q = request.GET.get("searched", "")
+        return base_queryset.filter(content__icontains=q).order_by("-created_at")
+
     def get(self, request):
-        posts = Post.objects.all().order_by("-updated_at")
-        tags = Tag.objects.all()
-        form = CommentForm()
-        return render(request, "core/home.html", context={
-            "posts": posts,
-            "form": form,
-            "tags": tags
-        })
+        base_queryset = Post.objects.all()
+        posts = self.get_filtered_posts(request, base_queryset)
+        context = self.get_base_context()
+        context.update({"posts": posts})
+        return render(request, "core/chitchat.html", context=context)
 
     def post(self, request):
-        posts = Post.objects.all().order_by("-updated_at")
+        posts = Post.objects.all().order_by("-created_at")
         form = CommentForm(request.POST)
         if form.is_valid():
             post_id = request.POST.get("post_id")
@@ -90,36 +98,46 @@ class HomeView(LoginRequiredMixin, View):
             new_comment.post = get_object_or_404(Post, id=post_id)
             new_comment.save()
             messages.success(request, "Your comment has been successfully submitted!")
-            return redirect("home")
-        return render(request, "core/home.html", context={
+            return redirect("chitchat")
+        context = self.get_base_context()
+        context.update({
             "posts": posts,
             "form": form
         })
+        return render(request, "core/chitchat.html", context=context)
 
-class CheckUserProfileView(HomeView):
+class CheckUserProfileView(ChitChatView):
     def get(self, request, username):
-        posts = Post.objects.filter(author__username=username).order_by("-updated_at")
-        tags = Tag.objects.all()
-        form = CommentForm()
-        return render(request, "core/home.html", context={
+        base_queryset = Post.objects.filter(author__username=username)
+        posts = self.get_filtered_posts(request, base_queryset)
+        context = self.get_base_context()
+        context.update({
             "posts": posts,
-            "form": form,
-            "tags": tags,
             "page_title": f"{username}'s profile"
         })
+        return render(request, "core/chitchat.html", context=context)
 
-class SortByTagView(HomeView):
+class SortByTagView(ChitChatView):
     def get(self, request, tag_name):
         tag = get_object_or_404(Tag, name=tag_name)
-        posts = Post.objects.filter(tags=tag).order_by("-updated_at")
-        tags = Tag.objects.all()
-        form = CommentForm()
-        return render(request, "core/home.html", context={
+        base_queryset = Post.objects.filter(tags=tag)
+        posts = self.get_filtered_posts(request, base_queryset)
+        context = self.get_base_context()
+        context.update({
             "posts": posts,
-            "form": form,
-            "tags": tags,
             "page_title": f"#{tag_name}"
         })
+        return render(request, "core/chitchat.html", context=context)
+
+class CheckPost(ChitChatView):
+    def get(self, request, post_id):
+        post = get_object_or_404(Post, id=post_id)
+        context = self.get_base_context()
+        context.update({
+            "posts": [post],
+            "page_title": f"check post: '{post.content[:20]}...'"
+        })
+        return render(request, "core/chitchat.html", context=context)
 
 @login_required(login_url="login")
 def create_post(request):
@@ -131,11 +149,12 @@ def create_post(request):
             new_post.save()
             form.save_m2m() # Save the tags (ManyToManyField)
             messages.success(request, "Your post has been successfully submitted!")
-            return redirect("home")
+            return redirect("chitchat")
     else:
         form = PostForm()
-    return render(request, "core/create-post.html", context={
-        "form": form
+    return render(request, "core/create-or-edit-post.html", context={
+        "form": form,
+        "type": "create"
     })
 
 @login_required(login_url="login")
@@ -149,11 +168,11 @@ def edit_post(request, post_id):
             updated_post.save()
             form.save_m2m()  # Save the tags (ManyToManyField)
             messages.success(request, "Your post has been successfully updated!")
-            return redirect("home")
+            return redirect("chitchat")
     else:
         # Prepopulate the form
         form = PostForm(instance=post_to_edit)
-    return render(request, "core/edit-post.html", context={
+    return render(request, "core/create-or-edit-post.html", context={
         "form": form
     })
 
@@ -161,6 +180,18 @@ def edit_post(request, post_id):
 def delete_post(request, post_id):
     post_to_delete = get_object_or_404(Post, id=post_id)
     post_to_delete.delete()
-    return redirect("home")
+    return redirect("chitchat")
+
+@login_required(login_url="login")
+def like_post(request, post_id):
+    post_to_like = get_object_or_404(Post, id=post_id)
+    if request.user not in post_to_like.liked_by.all():
+        post_to_like.likes += 1
+        post_to_like.liked_by.add(request.user)
+    else:
+        post_to_like.likes -= 1
+        post_to_like.liked_by.remove(request.user)
+    post_to_like.save()
+    return redirect("chitchat")
 
 
