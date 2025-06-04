@@ -79,8 +79,9 @@ class ChitChatView(LoginRequiredMixin, View):
         }
 
     def get_filtered_posts(self, request, base_queryset):
-        q = request.GET.get("searched", "")
-        return base_queryset.filter(content__icontains=q).order_by("-created_at")
+        q_user = request.GET.get("searched_user", "")
+        q_post = request.GET.get("searched_post", "")
+        return base_queryset.filter(author__username__icontains=q_user).filter(content__icontains=q_post).order_by("-created_at")
 
     def get(self, request):
         base_queryset = Post.objects.all()

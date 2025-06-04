@@ -15,7 +15,7 @@
   {% if messages %}
     <div class="messages-container">
         {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">
+            <div class="message message-{{ message.tags }}">
               {{ message }}
             </div>
         {% endfor %}
@@ -40,7 +40,8 @@
       <div class="main-column">
           <div class="post-search">
               <form method="GET">
-                  <input type="search" name="searched" placeholder="Search for Posts...">
+                  <input type="search" name="searched_user" placeholder="Search for Users...">
+                  <input type="search" name="searched_post" placeholder="Search for Posts...">
                   <button type="submit">Search</button>
               </form>
           </div>
@@ -148,39 +149,8 @@
 
 
 <script src="{% static 'core/js/delete-post.js' %}"></script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
+<script src="{% static 'core/js/like-post.js' %}"></script>
 
-  document.querySelectorAll('.like-button').forEach(button => {
-    button.addEventListener('click', function () {
-      const postId = this.dataset.postId;
-      const likeCountElem = this.querySelector('.like-count');
-      const isLiked = this.classList.contains('liked');
-
-      fetch(`/like-post/${postId}`, {
-        method: 'POST',
-        headers: {
-          'X-CSRFToken': csrfToken,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({})  // Empty for now
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          likeCountElem.textContent = data.likes;
-          this.classList.toggle('liked', data.liked);
-
-          this.title = data.liked
-            ? "You already like this Post."
-            : "Like this Post!";
-        }
-      });
-    });
-  });
-});
-</script>
 
 
 {% endblock %}

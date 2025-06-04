@@ -7,7 +7,7 @@ body {
   justify-content: space-between;
   align-items: center;
   background-color: #f8f9fa; /* Light gray background */
-  padding: 0.75rem 1.5rem
+  padding: 0.75rem 1.5rem;
 }
 
 .nav-left,
@@ -68,4 +68,35 @@ a:hover {
     color: white;              /* Text color */
     margin: 0;                 /* Remove default margin from h1 */
     font-size: 2em;            /* You can adjust the size of the title */
+}
+
+.messages-container {
+    display: flex;
+    justify-content: center;  /* Centers the messages horizontally */
+    align-items: center;      /* Centers the messages vertically (if you want) */
+    width: 100%;              /* Ensure the container takes the full width */
+    margin-top: 10px;         /* Optional, adds space at the top */
+}
+
+.message {
+    width: 50%;               /* Adjust the width of the message box */
+    text-align: center;       /* Center the text inside the alert box */
+    padding: 15px;
+    border-radius: 5px;
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.message-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.message-error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.message.fade-out {
+    opacity: 0;
+    transform: translateY(-10px);
 }
