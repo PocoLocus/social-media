@@ -76,7 +76,6 @@
                                     </a>
 
                                     <button class="button-delete" id="openPopup{{ post.id }}"><img src="{% static 'core/images/bin.png' %}"></button>
-
                                     <div id="popupContainer{{ post.id }}" class="popup">
                                         <div class="popup-content">
                                             <span class="closePopup" id="closePopup{{ post.id }}">&times;</span>
@@ -89,21 +88,22 @@
                                         </div>
                                     </div>
                                 {% endif %}
-                                {% if user not in post.liked_by.all %}
-                                    <a href="{% url 'like_post' post.id %}">
-                                        <button class="button-like" type="button" title="Like this Post!"><img src="{% static 'core/images/like.png' %}"></button>
-                                    </a>
-                                {% else %}
-                                    <a href="{% url 'like_post' post.id %}">
-                                        <button class="button-like-clicked" type="button" title="You already like this Post."><img src="{% static 'core/images/like.png' %}"></button>
-                                    </a>
-                                {% endif %}
+
+                                    <div>
+                                        <button
+                                            class="like-button {% if user in post.liked_by.all %}liked{% endif %}"
+                                            data-post-id="{{ post.id }}"
+                                            title="{% if user in post.liked_by.all %}You already like this Post.{% else %}Like this Post!{% endif %}">
+                                            <img src="{% static 'core/images/like.png' %}">
+                                            <span class="like-count">{{ post.likes }}</span>
+                                        </button>
+
+                                        <!-- CSRF token for JavaScript -->
+                                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                                    </div>
                             </div>
                         </div>
                         <div class="post-comments">
-                            <div class="post-likes">
-                                <p>Likes: {{ post.likes }}</p>
-                            </div>
                             <ul class="comment-list">
                                 {% for comment in post.comments.all %}
                                     <li class="comment-item">
@@ -148,5 +148,39 @@
 
 
 <script src="{% static 'core/js/delete-post.js' %}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
+
+  document.querySelectorAll('.like-button').forEach(button => {
+    button.addEventListener('click', function () {
+      const postId = this.dataset.postId;
+      const likeCountElem = this.querySelector('.like-count');
+      const isLiked = this.classList.contains('liked');
+
+      fetch(`/like-post/${postId}`, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrfToken,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})  // Empty for now
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          likeCountElem.textContent = data.likes;
+          this.classList.toggle('liked', data.liked);
+
+          this.title = data.liked
+            ? "You already like this Post."
+            : "Like this Post!";
+        }
+      });
+    });
+  });
+});
+</script>
+
 
 {% endblock %}

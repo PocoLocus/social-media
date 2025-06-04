@@ -15,7 +15,7 @@ urlpatterns = [
 
     path("", views.welcome, name="welcome"),
     path("chitchat", views.ChitChatView.as_view(), name="chitchat"),
-    path("post/<slug:post_id>", views.CheckPost.as_view(), name="check_post"),
+    path("post/<int:post_id>", views.CheckPost.as_view(), name="check_post"),
     path("user/<slug:username>", views.CheckUserProfileView.as_view(), name="check_user_profile"),
     path("tag/<str:tag_name>", views.SortByTagView.as_view(), name="sort_by_tag"),
 

@@ -18,20 +18,19 @@
 <body>
   {% if user.is_authenticated %}
       <div class="top-nav">
-        <a href="{% url 'chitchat' %}">ChitChat</a>
-        <a href="{% url 'create_post' %}">Under construction</a>
-        <div class="top-right-nav">
-          <a href="{% url 'check_user_profile' user.username %}">
-              {% if user.image %}
-                <img class="profile-image" src="{{ user.image.url }}">
-              {% endif %}
-              {{ user.username }}
-          </a>
-          <form action="{% url 'logout' %}" method="POST">
-            {% csrf_token %}
-            <button type="submit">Log Out</button>
-          </form>
-        </div>
+          <ul class="nav-left">
+              <li><a href="{% url 'chitchat' %}">ChitChat</a></li>
+              <li><a href="{% url 'create_post' %}">Under construction</a></li>
+          </ul>
+          <ul class="nav-right">
+              <li><a href="{% url 'check_user_profile' user.username %}">{{ user.username }}</a></li>
+              <li>
+                  <form action="{% url 'logout' %}" method="POST">
+                      {% csrf_token %}
+                      <button type="submit" class="nav-button">Log Out</button>
+                  </form>
+              </li>
+          </ul>
       </div>
   {% endif %}
 {% block content %}{% endblock %}

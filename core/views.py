@@ -8,6 +8,7 @@ from django.contrib.auth.views import PasswordResetView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
+from django.http import JsonResponse
 
 from .forms import CustomSignupForm, LoginForm, PostForm, CommentForm
 from .models import Post, Tag, CustomUser, Comment
@@ -98,7 +99,7 @@ class ChitChatView(LoginRequiredMixin, View):
             new_comment.post = get_object_or_404(Post, id=post_id)
             new_comment.save()
             messages.success(request, "Your comment has been successfully submitted!")
-            return redirect("chitchat")
+            return redirect("check_post", post_id)
         context = self.get_base_context()
         context.update({
             "posts": posts,
@@ -184,14 +185,24 @@ def delete_post(request, post_id):
 
 @login_required(login_url="login")
 def like_post(request, post_id):
-    post_to_like = get_object_or_404(Post, id=post_id)
-    if request.user not in post_to_like.liked_by.all():
-        post_to_like.likes += 1
-        post_to_like.liked_by.add(request.user)
-    else:
-        post_to_like.likes -= 1
-        post_to_like.liked_by.remove(request.user)
-    post_to_like.save()
-    return redirect("chitchat")
+    if request.method == "POST":
+        post_to_like = get_object_or_404(Post, id=post_id)
+        liked = False
+        if request.user not in post_to_like.liked_by.all():
+            post_to_like.likes += 1
+            post_to_like.liked_by.add(request.user)
+            liked = True
+        else:
+            post_to_like.likes -= 1
+            post_to_like.liked_by.remove(request.user)
+        post_to_like.save()
+        return JsonResponse({
+            "success": True,
+            "liked": liked,
+            "likes": post_to_like.likes
+        })
+
+    return JsonResponse({"success": False}, status=400)
+
 
 
