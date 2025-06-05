@@ -1,0 +1,7 @@
+{% load static %}
+
+<div class="profile-section">
+    <img src="{% static 'core/images/user.png' %}">
+    <h3>{{ user.username }}</h3>
+    <p>Joined on {{ user.date_joined|date:"D d M Y" }}</p>
+</div>

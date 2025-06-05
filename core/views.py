@@ -58,6 +58,24 @@ def login_view(request):
         "form": form
     })
 
+def change_username(request):
+    if request.method == "POST":
+        new_username = request.POST.get("new_username", "")
+        if not new_username:
+            messages.error(request, "Username cannot be empty.")
+            return render(request, "registration/change-username.html")
+        if new_username == request.user.username:
+            messages.error(request, "You are already using this username.")
+            return render(request, "registration/change-username.html")
+        if CustomUser.objects.filter(username=new_username).exists():
+            messages.error(request, "This name is already taken.")
+            return render(request, "registration/change-username.html")
+        request.user.username = new_username
+        request.user.save()
+        messages.success(request, "Your username has been successfully changed!")
+        return redirect("chitchat")
+    return render(request, "registration/change-username.html")
+
 class CustomPasswordResetView(PasswordResetView, SuccessMessageMixin):
     template_name = "registration/password-reset.html"
     email_template_name = "registration/password-reset-email.html"
@@ -87,7 +105,11 @@ class ChitChatView(LoginRequiredMixin, View):
         base_queryset = Post.objects.all()
         posts = self.get_filtered_posts(request, base_queryset)
         context = self.get_base_context()
-        context.update({"posts": posts})
+        context.update({
+            "posts": posts,
+            "page_title": "ChitChat",
+            "type": "main"
+        })
         return render(request, "core/chitchat.html", context=context)
 
     def post(self, request):
@@ -115,7 +137,8 @@ class CheckUserProfileView(ChitChatView):
         context = self.get_base_context()
         context.update({
             "posts": posts,
-            "page_title": f"{username}'s profile"
+            "page_title": f"{username}'s profile",
+            "type": "profile"
         })
         return render(request, "core/chitchat.html", context=context)
 
@@ -127,7 +150,8 @@ class SortByTagView(ChitChatView):
         context = self.get_base_context()
         context.update({
             "posts": posts,
-            "page_title": f"#{tag_name}"
+            "page_title": f"#{tag_name}",
+            "type": "main"
         })
         return render(request, "core/chitchat.html", context=context)
 
@@ -137,7 +161,8 @@ class CheckPost(ChitChatView):
         context = self.get_base_context()
         context.update({
             "posts": [post],
-            "page_title": f"check post: '{post.content[:20]}...'"
+            "page_title": f"check post: '{post.content[:15]}...'",
+            "type": "specific"
         })
         return render(request, "core/chitchat.html", context=context)
 

@@ -25,6 +25,15 @@
           <ul class="nav-right">
               <li><a href="{% url 'check_user_profile' user.username %}">{{ user.username }}</a></li>
               <li>
+                  <div class="dropdown">
+                      <button class="dropbtn nav-button">Settings</button>
+                      <div class="dropdown-content">
+                        <a href="{% url 'change_username' %}">Change username</a>
+                        <a href="{% url 'password_reset' %}">Change password</a>
+                      </div>
+                    </div>
+              </li>
+              <li>
                   <form action="{% url 'logout' %}" method="POST">
                       {% csrf_token %}
                       <button type="submit" class="nav-button">Log Out</button>

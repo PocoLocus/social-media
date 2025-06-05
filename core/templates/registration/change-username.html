@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Change username{% endblock %}
+
+{% block css_files %}<link rel="stylesheet" href="{% static 'core/change-username.css' %}">{% endblock %}
+
+{% block content %}
+    <div class="title-box">
+        <h1 class="page-title">Change your username</h1>
+    </div>
+
+    {% include "core/messages-component.html" %}
+
+    <form method="POST" class="change-username-form">
+        {% csrf_token %}
+        <div class="form-field">
+            <p>Your current username is: {{ user.username }}</p>
+            <label class="form-label">Enter your new username</label>
+            <input type="text" name="new_username">
+        </div>
+        <p>Go back to <a href="{% url 'chitchat' %}">main page</a>.</p>
+        <button type="submit" class="submit-btn">Submit</button>
+    </form>
+{% endblock %}

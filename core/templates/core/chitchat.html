@@ -8,48 +8,40 @@
 {% block content %}
   <div class="title-box">
       <h1 class="page-title">
-        {{ page_title|default:"ChitChat Page" }}
+        {{ page_title }}
       </h1>
   </div>
 
-  {% if messages %}
-    <div class="messages-container">
-        {% for message in messages %}
-            <div class="message message-{{ message.tags }}">
-              {{ message }}
-            </div>
-        {% endfor %}
-    </div>
-  {% endif %}
+  {% include "core/messages-component.html" %}
 
   <div class="content-container">
-      <!-- Tags Section on the left side -->
-      <div class="tags-section">
-          <h3>Available Tags</h3>
-          <ul class="tags-list">
-              {% for tag in tags %}
-                <li class="tag-item">
-                    <form action="{% url 'sort_by_tag' tag.name %}">
-                        <button type="submit" class="tag-button">{{ tag.name }}</button>
-                    </form>
-                </li>
-              {% endfor %}
-          </ul>
-      </div>
+      <!-- Tags Section -->
+      {% if type == "main" %}
+        {% include "core/tags-component.html" %}
+      {% elif type == "profile" %}
+        {% include "core/profile-component.html" %}
+      {% endif %}
 
       <div class="main-column">
-          <div class="post-search">
-              <form method="GET">
-                  <input type="search" name="searched_user" placeholder="Search for Users...">
-                  <input type="search" name="searched_post" placeholder="Search for Posts...">
-                  <button type="submit">Search</button>
-              </form>
-          </div>
-          {% if not page_title %}
+          <!-- Search Bar -->
+          {% if type != "specific" %}
+              <div class="post-search">
+                  <form method="GET">
+                      {% if type != "profile" %}
+                          <input type="search" name="searched_user" placeholder="Search for Users...">
+                      {% endif %}
+                      <input type="search" name="searched_post" placeholder="Search for Posts...">
+                      <button type="submit">Search</button>
+                  </form>
+              </div>
+          {% endif %}
+          <!-- Create Post -->
+          {% if type == "main" %}
               <div class="post-create">
                   <a href="{% url 'create_post' %}" class="post-create-button">Create a new Post</a>
               </div>
           {% endif %}
+          <!-- Posts List -->
           {% if posts %}
               <ul class="post-list">
                 {% for post in posts %}
@@ -72,10 +64,11 @@
                             </div>
                             <div class="post-edit">
                                 {% if user.id == post.author.id %}
+                                    <!-- Edit Post button -->
                                     <a href="{% url 'edit_post' post.id %}">
                                         <button class="button-edit" type="button"><img src="{% static 'core/images/edit.png' %}"></button>
                                     </a>
-
+                                    <!-- Delete Post button -->
                                     <button class="button-delete" id="openPopup{{ post.id }}"><img src="{% static 'core/images/bin.png' %}"></button>
                                     <div id="popupContainer{{ post.id }}" class="popup">
                                         <div class="popup-content">
@@ -89,7 +82,7 @@
                                         </div>
                                     </div>
                                 {% endif %}
-
+                                    <!-- Like Post button -->
                                     <div>
                                         <button
                                             class="like-button {% if user in post.liked_by.all %}liked{% endif %}"
@@ -98,12 +91,12 @@
                                             <img src="{% static 'core/images/like.png' %}">
                                             <span class="like-count">{{ post.likes }}</span>
                                         </button>
-
                                         <!-- CSRF token for JavaScript -->
                                         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                                     </div>
                             </div>
                         </div>
+                        <!-- Comments List -->
                         <div class="post-comments">
                             <ul class="comment-list">
                                 {% for comment in post.comments.all %}
@@ -114,6 +107,7 @@
                                 {% endfor %}
                             </ul>
                         </div>
+                        <!-- Comment Form -->
                         <form action="{% url 'chitchat' %}" method="POST">
                             {% csrf_token %}
                             <div class="form-field">
@@ -130,27 +124,13 @@
           {% endif %}
       </div>
 
-      <!-- Comments Activity Feed Section on the right side -->
-      <div class="activity-section">
-          <h3>Activity Feed</h3>
-          <ul class="activity-list">
-              {% for comment in comments %}
-                <li class="activity-item">
-                    <form action="{% url 'check_post' comment.post.id %}">
-                        <button type="submit" class="activity-button">
-                            {{ comment.created_at }} | {{ comment.commenter.username }}: "{{ comment.content|slice:':15' }}..."
-                        </button>
-                    </form>
-                </li>
-              {% endfor %}
-          </ul>
-      </div>
+      <!-- Comments Activity Feed Section -->
+      {% include "core/activity-feed-component.html" %}
+
   </div>
 
 
 <script src="{% static 'core/js/delete-post.js' %}"></script>
 <script src="{% static 'core/js/like-post.js' %}"></script>
-
-
 
 {% endblock %}

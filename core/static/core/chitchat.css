@@ -13,7 +13,7 @@
     margin-right: 50px;
     background-color: #a7d5c7;
     box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
-    height: 45vh;  /* Keeps it fixed to the page */
+    height: 30vh;  /* Keeps it fixed to the page */
     overflow-y: auto; /* Allow scrolling only if tags exceed the container height */
     border-radius: 8px;
 }
@@ -51,17 +51,18 @@
 }
 
 .tags-section {
-    width: 20%;  /* Adjust as needed */
+    width: 20%;
     position: sticky;
     top: 0;
     margin-top: 10px;
-    padding: 10px;
-    margin-right: 50px;
+    padding: 15px;
+    margin-left: 50px;
     background-color: #a7d5c7;
     box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
-    height: 45vh;  /* Keeps it fixed to the page */
-    overflow-y: auto; /* Allow scrolling only if tags exceed the container height */
+    height: 30vh;
+    overflow-y: auto;
     border-radius: 8px;
+    text-align: center;
 }
 
 .tags-section h3 {
@@ -94,6 +95,42 @@
 .tag-button:hover {
     background-color: #e0e0e0; /* Slightly darker grey on hover */
     text-decoration: none; /* Underline on hover */
+}
+
+.profile-section {
+    width: 20%;
+    position: sticky;
+    top: 0;
+    margin-top: 10px;
+    padding: 15px;
+    margin-left: 50px;
+    background-color: #a7d5c7;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+    height: 25vh;
+    overflow-y: auto;
+    border-radius: 8px;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.profile-section img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 2px solid #fff;
+}
+
+.profile-section h3 {
+    font-size: 20px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.profile-section p {
+    font-size: 14px;
+    color: #555;
 }
 
 .main-column {

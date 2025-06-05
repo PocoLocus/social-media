@@ -9,6 +9,7 @@ urlpatterns = [
     path("login", views.login_view , name="login"), # Could be done through built-in LoginView of auth app
     path("logout", auth_views.LogoutView.as_view(next_page="welcome"), name="logout"),
 
+    path("change-username", views.change_username, name="change_username"),
     path("password-reset", views.CustomPasswordResetView.as_view(), name="password_reset"),
     path("password-reset-confirm/<uidb64>/<token>", auth_views.PasswordResetConfirmView.as_view(template_name="registration/password-reset-confirm.html"), name="password_reset_confirm"),
     path("password-reset-complete", auth_views.PasswordResetCompleteView.as_view(template_name="registration/password-reset-complete.html"), name="password_reset_complete"),

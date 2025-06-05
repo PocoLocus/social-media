@@ -1,0 +1,12 @@
+<div class="tags-section">
+    <h3>Available Tags</h3>
+    <ul class="tags-list">
+        {% for tag in tags %}
+        <li class="tag-item">
+            <form action="{% url 'sort_by_tag' tag.name %}">
+                <button type="submit" class="tag-button">{{ tag.name }}</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+</div>

@@ -10,15 +10,7 @@
         <h1 class="page-title">Sign Up</h1>
     </div>
 
-  {% if messages %}
-    <div class="messages-container">
-        {% for message in messages %}
-            <div class="message message-{{ message.tags }}">
-              {{ message }}
-            </div>
-        {% endfor %}
-    </div>
-  {% endif %}
+  {% include "core/messages-component.html" %}
 
   <form method="POST" class="signup-form" enctype="multipart/form-data">
     {% csrf_token %}
