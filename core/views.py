@@ -236,17 +236,22 @@ def like_post(request, post_id):
 @login_required(login_url="login")
 def movies(request):
     movies = Movie.objects.all().order_by("-added_at")
+    for movie in movies:
+        rating_obj = movie.ratings.filter(user=request.user).first()
+        movie.current_user_rating = rating_obj.rating if rating_obj else None
     if request.method == "POST":
         rating = request.POST.get("rating")
         movie_id = request.POST.get("movie_id")
         current_movie = Movie.objects.get(id=movie_id)
-        new_rating = Rating(
+        rating_obj, created = Rating.objects.update_or_create(
             user=request.user,
             movie=current_movie,
-            rating=rating
+            defaults={"rating":rating}
         )
-        new_rating.save()
-        messages.success(request, "Movie successfully rated!")
+        if created:
+            messages.success(request, "Movie successfully rated!")
+        else:
+            messages.success(request, "You have successfully updated your rating!")
         return redirect('movies')
     return render(request, "core/movies.html", context={
         "movies": movies
@@ -269,8 +274,21 @@ def search_movie_online(request):
         response = requests.get(url, headers=headers, params=params)
         data = response.json()
         available_movies = data["results"]
+        number_of_pages = data["total_pages"]
+        for page in range(1, number_of_pages):
+            params = {
+                "query": movie,
+                "include_adult": False,
+                "language": "en-US",
+                "page": page+1
+            }
+            response = requests.get(url, headers=headers, params=params)
+            data = response.json()
+            available_movies.extend(data["results"])
+        for movie in available_movies:
+            movie["movie_exists"] = Movie.objects.filter(title=movie["title"], overview=movie["overview"]).exists()
         return render(request, "core/search-movie-online.html", context={
-            "available_movies": available_movies
+            "available_movies": available_movies,
         })
     return render(request, "core/search-movie-online.html")
 
@@ -283,9 +301,6 @@ def add_movie(request):
         vote_average = request.POST.get("vote_average")
         poster_path = request.POST.get("poster_path")
         rating = request.POST.get("rating")
-        if Movie.objects.filter(title=title, release_date=release_date).exists():
-            messages.error(request, "This movie is already added to the ChitChat Movie List.")
-            return redirect(request.META.get('HTTP_REFERER', '/'))
         new_movie = Movie(
             title=title,
             release_date=release_date,

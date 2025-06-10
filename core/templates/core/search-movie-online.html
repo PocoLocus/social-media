@@ -40,7 +40,7 @@
                     <td>{{ movie.title }}</td>
                     <td>{{ movie.release_date|slice:":4" }}</td>
                     <td>{{ movie.overview }}</td>
-                    <td>{{ movie.vote_average }}</td>
+                    <td>{{ movie.vote_average|floatformat:1 }}</td>
                     <td>
                         <form method="POST" action="{% url 'add_movie' %}">
                             {% csrf_token %}
@@ -49,11 +49,15 @@
                             <input type="hidden" name="release_date" value="{{ movie.release_date }}">
                             <input type="hidden" name="overview" value="{{ movie.overview }}">
                             <input type="hidden" name="vote_average" value="{{ movie.vote_average }}">
-                            <div class="range-wrapper">
-                                <output id="ratingOutput">5</output>
-                                <input type="range" name="rating" min="0" max="10" step="1" value="5" oninput="ratingOutput.value = this.value">
-                            </div>
-                            <button>Rate and Add</button>
+                            {% if movie.movie_exists %}
+                                <p>This movie already exists.</p>
+                            {% else %}
+                                <div class="range-wrapper">
+                                    <output id="ratingOutput">5</output>
+                                    <input type="range" name="rating" min="0" max="10" step="1" value="5" oninput="ratingOutput.value = this.value">
+                                </div>
+                                <button>Rate and Add</button>
+                            {% endif %}
                         </form>
                     </td>
                 </tr>

@@ -52,20 +52,27 @@
                 <td>{{ movie.title }}</td>
                 <td>{{ movie.release_date|date:"Y" }}</td>
                 <td>{{ movie.overview }}</td>
-                <td>{{ movie.vote_average }}</td>
+                <td>{{ movie.vote_average|floatformat:1 }}</td>
                 <td>{{ movie.average_rating|floatformat:1 }}</td>
                 <td>{{ movie.added_at }}</td>
                 <td>{{ movie.added_by.username }}</td>
                 <td>
-                    <form method="POST" action="{% url 'movies' %}">
-                        {% csrf_token %}
-                        <div class="range-wrapper">
-                            <input type="hidden" name="movie_id" value="{{ movie.id }}">
-                            <output id="ratingOutput">5</output>
-                            <input type="range" name="rating" min="0" max="10" step="1" value="5" oninput="ratingOutput.value = this.value">
-                        </div>
-                        <button>Rate</button>
-                    </form>
+                    {% if movie.current_user_rating %}
+                        <p>Your rating: {{ movie.current_user_rating }}</p>
+                    {% endif %}
+                        <form method="POST" action="{% url 'movies' %}">
+                            {% csrf_token %}
+                            <div class="range-wrapper">
+                                <input type="hidden" name="movie_id" value="{{ movie.id }}">
+                                <output id="ratingOutput">5</output>
+                                <input type="range" name="rating" min="0" max="10" step="1" value="5" oninput="ratingOutput.value = this.value">
+                            </div>
+                            {% if movie.current_user_rating %}
+                                <button>Update rating</button>
+                            {% else %}
+                                <button>Rate</button>
+                            {% endif %}
+                        </form>
                 </td>
             </tr>
             {% endfor %}
