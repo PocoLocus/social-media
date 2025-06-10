@@ -1,0 +1,71 @@
+.movie-search,
+.movie-search-online {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.movie-search-online-button {
+    background: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.movie-search-online-button:hover {
+    background-color: #0056b3;
+}
+
+table {
+    margin: 2rem auto;
+    border-collapse: collapse;
+    width: 90%;
+    max-width: 2000px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+th, td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+.table-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.range-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.range-wrapper output {
+    font-weight: bold;
+    margin-bottom: 5px;
+}

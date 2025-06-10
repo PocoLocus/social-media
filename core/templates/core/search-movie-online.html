@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Movies{% endblock %}
+
+{% block css_files %}<link rel="stylesheet" href="{% static 'core/search-movie-online.css' %}">{% endblock %}
+
+{% block content %}
+    <div class="title-box">
+        <h1 class="page-title">Search for a new Movie</h1>
+    </div>
+
+    {% include "core/messages-component.html" %}
+
+    <div class="movie-search">
+        <form method="POST">
+            {% csrf_token %}
+            <label class="form-label">{{ field.label }}</label>
+            <input type="search" name="searched_movie" placeholder="Search for new Movies...">
+            <button type="submit" class="submit-btn">Search</button>
+        </form>
+    </div>
+
+    <!-- Available Movies List -->
+    <div class="table-container">
+        <table>
+            <tr>
+                <th>Poster</th>
+                <th>Title</th>
+                <th>Year</th>
+                <th>Overview</th>
+                <th>Average IMDB Rating</th>
+                <th>Add to list</th>
+            </tr>
+            {% for movie in available_movies %}
+                <tr>
+                    <td>
+                        <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" style="width: 100px; border-radius: 5px;">
+                    </td>
+                    <td>{{ movie.title }}</td>
+                    <td>{{ movie.release_date|slice:":4" }}</td>
+                    <td>{{ movie.overview }}</td>
+                    <td>{{ movie.vote_average }}</td>
+                    <td>
+                        <form method="POST" action="{% url 'add_movie' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="poster_path" value="{{ movie.poster_path }}">
+                            <input type="hidden" name="title" value="{{ movie.title }}">
+                            <input type="hidden" name="release_date" value="{{ movie.release_date }}">
+                            <input type="hidden" name="overview" value="{{ movie.overview }}">
+                            <input type="hidden" name="vote_average" value="{{ movie.vote_average }}">
+                            <div class="range-wrapper">
+                                <output id="ratingOutput">5</output>
+                                <input type="range" name="rating" min="0" max="10" step="1" value="5" oninput="ratingOutput.value = this.value">
+                            </div>
+                            <button>Rate and Add</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}
+

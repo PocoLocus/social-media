@@ -23,6 +23,12 @@
       {% endif %}
 
       <div class="main-column">
+          <!-- Create Post -->
+          {% if type == "main" %}
+              <div class="post-create">
+                  <a href="{% url 'create_post' %}" class="post-create-button">Create a new Post</a>
+              </div>
+          {% endif %}
           <!-- Search Bar -->
           {% if type != "specific" %}
               <div class="post-search">
@@ -33,12 +39,6 @@
                       <input type="search" name="searched_post" placeholder="Search for Posts...">
                       <button type="submit">Search</button>
                   </form>
-              </div>
-          {% endif %}
-          <!-- Create Post -->
-          {% if type == "main" %}
-              <div class="post-create">
-                  <a href="{% url 'create_post' %}" class="post-create-button">Create a new Post</a>
               </div>
           {% endif %}
           <!-- Posts List -->

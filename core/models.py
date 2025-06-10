@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg
 
 from django.contrib.auth.models import AbstractUser
 
@@ -52,3 +53,26 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.content} ({self.commenter})"
+
+class Movie(models.Model):
+    title = models.CharField(max_length=255)
+    release_date = models.DateField()
+    overview = models.TextField()
+    vote_average = models.FloatField()
+    poster_path = models.CharField(max_length=255)
+    added_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="movies")
+    added_at = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.title} ({self.release_date})"
+
+    def average_rating(self):
+        return self.ratings.aggregate(avg_rating=Avg('rating'))['avg_rating'] or 0.0
+
+class Rating(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="personal_ratings")
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name="ratings")
+    rating = models.FloatField()
+    created_at = models.DateField(auto_now_add=True)
+
+

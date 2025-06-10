@@ -1,0 +1,52 @@
+.movie-search {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+table {
+    margin: 2rem auto;
+    border-collapse: collapse;
+    width: 90%;
+    max-width: 2000px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+th, td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+.table-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.range-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.range-wrapper output {
+    font-weight: bold;
+    margin-bottom: 5px;
+}

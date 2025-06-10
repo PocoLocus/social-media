@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Movies{% endblock %}
+
+{% block css_files %}<link rel="stylesheet" href="{% static 'core/movies.css' %}">{% endblock %}
+
+{% block content %}
+  <div class="title-box">
+      <h1 class="page-title">Movie List</h1>
+  </div>
+
+  {% include "core/messages-component.html" %}
+
+    <!-- Search for a Movie -->
+    <div class="movie-search-online">
+        <a href="{% url 'search_movie_online' %}" class="movie-search-online-button">Search for a Movie online</a>
+    </div>
+
+    <!-- Search Bar -->
+    {% if type != "specific" %}
+        <div class="movie-search">
+            <form method="GET">
+                {% if type != "profile" %}
+                <input type="search" name="searched_user" placeholder="Search for Users...">
+                {% endif %}
+                <input type="search" name="searched_movie" placeholder="Search for Movies...">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    {% endif %}
+
+    <!-- Movies List -->
+    <div class="table-container">
+        <table>
+            <tr>
+                <th>Poster</th>
+                <th>Title</th>
+                <th>Year</th>
+                <th>Overview</th>
+                <th>Average IMDB Rating</th>
+                <th>Average ChitChat Rating</th>
+                <th>Added at</th>
+                <th>Added by</th>
+                <th>Rate</th>
+            </tr>
+            {% for movie in movies %}
+            <tr>
+                <td>
+                    <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" style="width: 100px; border-radius: 5px;">
+                </td>
+                <td>{{ movie.title }}</td>
+                <td>{{ movie.release_date|date:"Y" }}</td>
+                <td>{{ movie.overview }}</td>
+                <td>{{ movie.vote_average }}</td>
+                <td>{{ movie.average_rating|floatformat:1 }}</td>
+                <td>{{ movie.added_at }}</td>
+                <td>{{ movie.added_by.username }}</td>
+                <td>
+                    <form method="POST" action="{% url 'movies' %}">
+                        {% csrf_token %}
+                        <div class="range-wrapper">
+                            <input type="hidden" name="movie_id" value="{{ movie.id }}">
+                            <output id="ratingOutput">5</output>
+                            <input type="range" name="rating" min="0" max="10" step="1" value="5" oninput="ratingOutput.value = this.value">
+                        </div>
+                        <button>Rate</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+
+
+{% endblock %}
+

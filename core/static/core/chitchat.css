@@ -134,7 +134,7 @@
 }
 
 .main-column {
-    width: 80%; /* or whatever fits your layout */
+    width: 100%; /* or whatever fits your layout */
     display: flex;
     flex-direction: column;
 }

@@ -2,6 +2,6 @@
 
 <div class="profile-section">
     <img src="{% static 'core/images/user.png' %}">
-    <h3>{{ user.username }}</h3>
-    <p>Joined on {{ user.date_joined|date:"D d M Y" }}</p>
+    <h3>{{ user_to_check.username }}</h3>
+    <p>Joined on {{ user_to_check.date_joined|date:"D d M Y" }}</p>
 </div>

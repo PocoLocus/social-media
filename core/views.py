@@ -9,9 +9,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.http import JsonResponse
+import requests
 
 from .forms import CustomSignupForm, LoginForm, PostForm, CommentForm
-from .models import Post, Tag, CustomUser, Comment
+from .models import Post, Tag, CustomUser, Comment, Movie, Rating
 
 
 def welcome(request):
@@ -132,13 +133,15 @@ class ChitChatView(LoginRequiredMixin, View):
 
 class CheckUserProfileView(ChitChatView):
     def get(self, request, username):
+        user_to_check = CustomUser.objects.get(username=username)
         base_queryset = Post.objects.filter(author__username=username)
         posts = self.get_filtered_posts(request, base_queryset)
         context = self.get_base_context()
         context.update({
             "posts": posts,
             "page_title": f"{username}'s profile",
-            "type": "profile"
+            "type": "profile",
+            "user_to_check": user_to_check
         })
         return render(request, "core/chitchat.html", context=context)
 
@@ -230,5 +233,74 @@ def like_post(request, post_id):
 
     return JsonResponse({"success": False}, status=400)
 
+@login_required(login_url="login")
+def movies(request):
+    movies = Movie.objects.all().order_by("-added_at")
+    if request.method == "POST":
+        rating = request.POST.get("rating")
+        movie_id = request.POST.get("movie_id")
+        current_movie = Movie.objects.get(id=movie_id)
+        new_rating = Rating(
+            user=request.user,
+            movie=current_movie,
+            rating=rating
+        )
+        new_rating.save()
+        messages.success(request, "Movie successfully rated!")
+        return redirect('movies')
+    return render(request, "core/movies.html", context={
+        "movies": movies
+    })
 
+@login_required(login_url="login")
+def search_movie_online(request):
+    if request.method == "POST":
+        movie = request.POST.get("searched_movie")
+        url = "https://api.themoviedb.org/3/search/movie"
+        headers = {
+            "accept": "application/json",
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhYzFiM2E4ODJlM2IzZGI4ZGVmNjQ0NDhiMWRlMzdkNCIsIm5iZiI6MTcyOTU4NjU2MC45NzcsInN1YiI6IjY3MTc2NTgwNmZiMDllMzk0YzAyOWQ4MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.QNo6zhVT2QxldV-6gQZqjAxUui_cII-wjRnvHczkY3o"
+        }
+        params = {
+            "query": movie,
+            "include_adult": False,
+            "language": "en-US"
+        }
+        response = requests.get(url, headers=headers, params=params)
+        data = response.json()
+        available_movies = data["results"]
+        return render(request, "core/search-movie-online.html", context={
+            "available_movies": available_movies
+        })
+    return render(request, "core/search-movie-online.html")
+
+@login_required(login_url="login")
+def add_movie(request):
+    if request.method == "POST":
+        title = request.POST.get("title")
+        release_date = request.POST.get("release_date")
+        overview = request.POST.get("overview")
+        vote_average = request.POST.get("vote_average")
+        poster_path = request.POST.get("poster_path")
+        rating = request.POST.get("rating")
+        if Movie.objects.filter(title=title, release_date=release_date).exists():
+            messages.error(request, "This movie is already added to the ChitChat Movie List.")
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+        new_movie = Movie(
+            title=title,
+            release_date=release_date,
+            overview=overview,
+            vote_average=vote_average,
+            poster_path=poster_path,
+            added_by=request.user
+        )
+        new_movie.save()
+        new_rating = Rating(
+            user=request.user,
+            movie=new_movie,
+            rating=rating
+        )
+        new_rating.save()
+        messages.success(request, "Movie added successfully!")
+        return redirect('movies')
 

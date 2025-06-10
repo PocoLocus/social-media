@@ -23,5 +23,9 @@ urlpatterns = [
     path("create-post", views.create_post, name="create_post"),
     path("edit-post/<int:post_id>", views.edit_post, name="edit_post"),
     path("delete-post/<int:post_id>", views.delete_post, name="delete_post"),
-    path("like-post/<int:post_id>", views.like_post, name="like_post")
+    path("like-post/<int:post_id>", views.like_post, name="like_post"),
+
+    path("movies", views.movies, name="movies"),
+    path("search-movie-online", views.search_movie_online, name="search_movie_online"),
+    path("add-movie", views.add_movie, name="add_movie")
 ]
