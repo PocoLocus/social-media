@@ -17,19 +17,6 @@
         <a href="{% url 'search_movie_online' %}" class="movie-search-online-button">Search for a Movie online</a>
     </div>
 
-    <!-- Search Bar -->
-    {% if type != "specific" %}
-        <div class="movie-search">
-            <form method="GET">
-                {% if type != "profile" %}
-                <input type="search" name="searched_user" placeholder="Search for Users...">
-                {% endif %}
-                <input type="search" name="searched_movie" placeholder="Search for Movies...">
-                <button type="submit">Search</button>
-            </form>
-        </div>
-    {% endif %}
-
     <!-- Movies List -->
     <div class="table-container">
         <table>

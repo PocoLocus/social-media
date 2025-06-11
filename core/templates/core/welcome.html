@@ -11,8 +11,16 @@
         <img src="{% static 'core/images/social-media-welcome.png' %}" alt="Welcome Image" class="welcome-image">
 
         <div class="text-box">
-          <h1>Welcome to Social Media</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <h1>Welcome to ChitChat</h1>
+          <p>
+            This is a social media platform. In the main <strong>ChitChat</strong> tab you can share your thoughts,
+            comment on and like other's posts, explore user profiles, sort posts by tags and search by author or content.
+            There is an activity feed section to keep you updated for the latest comments. In the top-right corner of the
+            navigation bar you can visit your own profile and the settings tab, where you can update your username or
+            your password. We have recently introduced the <strong>Movies</strong> tab, where users can search for films
+            via the TMDB API, rate them and add them to the shared movies list. Each movie entry includes detailed information.
+            Other users can view, rate and update their ratings for any added movie.
+          </p>
         </div>
 
         {% if user.is_anonymous %}

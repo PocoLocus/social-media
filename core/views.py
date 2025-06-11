@@ -259,38 +259,39 @@ def movies(request):
 
 @login_required(login_url="login")
 def search_movie_online(request):
-    if request.method == "POST":
-        movie = request.POST.get("searched_movie")
+    query = request.GET.get("searched_movie", "").strip()
+    tmdb_page = request.GET.get("tmdb_page", 1)
+    available_movies = []
+    tmdb_total_pages = 1
+    if query:
         url = "https://api.themoviedb.org/3/search/movie"
         headers = {
             "accept": "application/json",
             "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhYzFiM2E4ODJlM2IzZGI4ZGVmNjQ0NDhiMWRlMzdkNCIsIm5iZiI6MTcyOTU4NjU2MC45NzcsInN1YiI6IjY3MTc2NTgwNmZiMDllMzk0YzAyOWQ4MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.QNo6zhVT2QxldV-6gQZqjAxUui_cII-wjRnvHczkY3o"
         }
         params = {
-            "query": movie,
+            "query": query,
             "include_adult": False,
-            "language": "en-US"
+            "language": "en-US",
+            "page": tmdb_page
         }
-        response = requests.get(url, headers=headers, params=params)
-        data = response.json()
-        available_movies = data["results"]
-        number_of_pages = data["total_pages"]
-        for page in range(1, number_of_pages):
-            params = {
-                "query": movie,
-                "include_adult": False,
-                "language": "en-US",
-                "page": page+1
-            }
+        try:
             response = requests.get(url, headers=headers, params=params)
+            response.raise_for_status()
             data = response.json()
-            available_movies.extend(data["results"])
-        for movie in available_movies:
-            movie["movie_exists"] = Movie.objects.filter(title=movie["title"], overview=movie["overview"]).exists()
-        return render(request, "core/search-movie-online.html", context={
-            "available_movies": available_movies,
-        })
-    return render(request, "core/search-movie-online.html")
+            available_movies = data.get("results", [])
+            tmdb_total_pages = data.get("total_pages", 1)
+            for movie in available_movies:
+                movie["movie_exists"] = Movie.objects.filter(title=movie["title"], overview=movie["overview"]).exists()
+        except:
+            messages.error(request, "Failed to fetch movies. Please try again later.")
+            return redirect("search_movie_online")
+    return render(request, "core/search-movie-online.html", context={
+        "available_movies": available_movies,
+        "searched": query,
+        "tmdb_page": int(tmdb_page),
+        "tmdb_total_pages": tmdb_total_pages
+    })
 
 @login_required(login_url="login")
 def add_movie(request):
@@ -316,6 +317,6 @@ def add_movie(request):
             rating=rating
         )
         new_rating.save()
-        messages.success(request, "Movie added successfully!")
+        messages.success(request, "Movie successfully added!")
         return redirect('movies')
 

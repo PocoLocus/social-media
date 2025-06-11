@@ -12,11 +12,10 @@
 
     {% include "core/messages-component.html" %}
 
+    <!-- Search bar -->
     <div class="movie-search">
-        <form method="POST">
-            {% csrf_token %}
-            <label class="form-label">{{ field.label }}</label>
-            <input type="search" name="searched_movie" placeholder="Search for new Movies...">
+        <form method="GET">
+            <input type="search" name="searched_movie" placeholder="Search by name..." value="{{ searched }}">
             <button type="submit" class="submit-btn">Search</button>
         </form>
     </div>
@@ -63,6 +62,19 @@
                 </tr>
             {% endfor %}
         </table>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            {% if tmdb_page > 1 %}
+                <a href="?searched_movie={{ searched }}&?tmdb_page={{ tmdb_page|add:'-1' }}">previous</a>
+            {% endif %}
+
+            Page {{ tmdb_page }} of {{ tmdb_total_pages }}
+
+            {% if tmdb_page < tmdb_total_pages %}
+                <a href="?searched_movie={{ searched }}&tmdb_page={{ tmdb_page|add:'1' }}">next</a>
+            {% endif %}
+        </div>
     </div>
 
 {% endblock %}
