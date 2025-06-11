@@ -112,7 +112,7 @@ class ChitChatView(LoginRequiredMixin, View):
         context = self.get_base_context()
         context.update({
             "posts": posts,
-            "page_title": "ChitChat",
+            "page_title": "ChitChat main page",
             "type": "main"
         })
         return render(request, "core/chitchat.html", context=context)
