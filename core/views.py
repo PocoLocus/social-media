@@ -154,7 +154,7 @@ class SortByTagView(ChitChatView):
         context.update({
             "posts": posts,
             "page_title": f"#{tag_name}",
-            "type": "main"
+            "type": "tags"
         })
         return render(request, "core/chitchat.html", context=context)
 

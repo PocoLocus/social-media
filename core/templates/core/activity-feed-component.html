@@ -2,13 +2,13 @@
   <h3>Activity Feed</h3>
   <ul class="activity-list">
     {% for comment in comments %}
-    <li class="activity-item">
-      <form action="{% url 'check_post' comment.post.id %}">
-        <button type="submit" class="activity-button">
-          {{ comment.created_at }} | {{ comment.commenter.username }}: "{{ comment.content|slice:':15' }}..."
-        </button>
-      </form>
-    </li>
+      <li class="activity-item">
+        <form action="{% url 'check_post' comment.post.id %}">
+          <button type="submit" class="activity-button">
+            {{ comment.created_at }} | {{ comment.commenter.username }}: "{{ comment.content|slice:':40' }}..."
+          </button>
+        </form>
+      </li>
     {% endfor %}
   </ul>
 </div>

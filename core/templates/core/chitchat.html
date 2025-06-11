@@ -16,7 +16,7 @@
 
   <div class="content-container">
       <!-- Tags Section -->
-      {% if type == "main" %}
+      {% if type == "main" or type == "tags" %}
         {% include "core/tags-component.html" %}
       {% elif type == "profile" %}
         {% include "core/profile-component.html" %}
@@ -30,10 +30,10 @@
               </div>
           {% endif %}
           <!-- Search Bar -->
-          {% if type != "specific" %}
+          {% if type == "main" or type == "tags" or type == "profile" %}
               <div class="post-search">
                   <form method="GET">
-                      {% if type != "profile" %}
+                      {% if type == "main" or type == "tags" %}
                           <input type="search" name="searched_user" placeholder="Search for Users...">
                       {% endif %}
                       <input type="search" name="searched_post" placeholder="Search for Posts...">
@@ -124,8 +124,13 @@
           {% endif %}
       </div>
 
-      <!-- Comments Activity Feed Section -->
-      {% include "core/activity-feed-component.html" %}
+      {% if type == "main" or type == "tags" or type == "specific" %}
+        <!-- Comments Activity Feed Section -->
+        {% include "core/activity-feed-component.html" %}
+      {% elif type == "profile" %}
+        <!-- User Movie Rating Section -->
+        {% include "core/user-movie-rating-component.html" %}
+      {% endif %}
 
   </div>
 

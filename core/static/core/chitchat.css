@@ -13,7 +13,7 @@
     margin-right: 50px;
     background-color: #a7d5c7;
     box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
-    height: 30vh;  /* Keeps it fixed to the page */
+    height: 40vh;  /* Keeps it fixed to the page */
     overflow-y: auto; /* Allow scrolling only if tags exceed the container height */
     border-radius: 8px;
 }
@@ -59,7 +59,7 @@
     margin-left: 50px;
     background-color: #a7d5c7;
     box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
-    height: 30vh;
+    height: 60vh;
     overflow-y: auto;
     border-radius: 8px;
     text-align: center;

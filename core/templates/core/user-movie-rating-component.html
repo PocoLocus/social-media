@@ -1,0 +1,8 @@
+<div class="activity-section">
+  <h3>{{ user_to_check.username }}'s Movie Ratings</h3>
+  <ul class="activity-list">
+    {% for rating in user_to_check.personal_ratings.all %}
+      <li class="activity-item"><strong>{{ rating.movie.title }}:</strong> {{ rating.rating }}</li>
+    {% endfor %}
+  </ul>
+</div>
