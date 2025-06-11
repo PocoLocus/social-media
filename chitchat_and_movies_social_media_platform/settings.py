@@ -58,7 +58,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'social_media.urls'
+ROOT_URLCONF = 'chitchat_and_movies_social_media_platform.urls'
 
 TEMPLATES = [
     {
@@ -78,7 +78,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'social_media.wsgi.application'
+WSGI_APPLICATION = 'chitchat_and_movies_social_media_platform.wsgi.application'
 
 
 # Database

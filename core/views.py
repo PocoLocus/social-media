@@ -10,10 +10,14 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.http import JsonResponse
 import requests
+import os
+from dotenv import load_dotenv
 
 from .forms import CustomSignupForm, LoginForm, PostForm, CommentForm
 from .models import Post, Tag, CustomUser, Comment, Movie, Rating
 
+# Load .env
+load_dotenv(".env")
 
 def welcome(request):
     return render(request, "core/welcome.html")
@@ -267,7 +271,7 @@ def search_movie_online(request):
         url = "https://api.themoviedb.org/3/search/movie"
         headers = {
             "accept": "application/json",
-            "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhYzFiM2E4ODJlM2IzZGI4ZGVmNjQ0NDhiMWRlMzdkNCIsIm5iZiI6MTcyOTU4NjU2MC45NzcsInN1YiI6IjY3MTc2NTgwNmZiMDllMzk0YzAyOWQ4MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.QNo6zhVT2QxldV-6gQZqjAxUui_cII-wjRnvHczkY3o"
+            "Authorization": f"Bearer {os.getenv('TMDB_TOKEN')}"
         }
         params = {
             "query": query,
