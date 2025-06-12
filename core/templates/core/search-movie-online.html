@@ -66,13 +66,13 @@
         <!-- Pagination -->
         <div class="pagination">
             {% if tmdb_page > 1 %}
-                <a href="?searched_movie={{ searched }}&?tmdb_page={{ tmdb_page|add:'-1' }}">previous</a>
+                <a href="{% url 'search_movie_online' %}?searched_movie={{ searched }}&?tmdb_page={{ tmdb_page|add:'-1' }}">previous</a>
             {% endif %}
 
             Page {{ tmdb_page }} of {{ tmdb_total_pages }}
 
             {% if tmdb_page < tmdb_total_pages %}
-                <a href="?searched_movie={{ searched }}&tmdb_page={{ tmdb_page|add:'1' }}">next</a>
+                <a href="{% url 'search_movie_online' %}?searched_movie={{ searched }}&tmdb_page={{ tmdb_page|add:'1' }}">next</a>
             {% endif %}
         </div>
     </div>

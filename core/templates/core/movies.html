@@ -22,15 +22,95 @@
         <table>
             <tr>
                 <th>Poster</th>
-                <th>Title</th>
-                <th>Year</th>
+                <th>
+                    <div class="th-flex">
+                        <span>Title</span>
+                        <div class="dropdown">
+                            <button class="dropbtn sort-button">
+                                <img src="{% static 'core/images/down-arrow.png'%}">
+                            </button>
+                            <div class="dropdown-content">
+                              <a href="{% url 'movies' %}?sort_by=title&order=asc">Ascending</a>
+                              <a href="{% url 'movies' %}?sort_by=title&order=desc">Descending</a>
+                            </div>
+                        </div>
+                    </div>
+                </th>
+                <th>
+                    <div class="th-flex">
+                        <span>Year</span>
+                        <div class="dropdown">
+                            <button class="dropbtn sort-button">
+                                <img src="{% static 'core/images/down-arrow.png'%}">
+                            </button>
+                            <div class="dropdown-content">
+                              <a href="{% url 'movies' %}?sort_by=release_date&order=asc">Ascending</a>
+                              <a href="{% url 'movies' %}?sort_by=release_date&order=desc">Descending</a>
+                            </div>
+                        </div>
+                    </div>
+                </th>
                 <th>Overview</th>
-                <th>Average IMDB Rating</th>
-                <th>Average ChitChat Rating</th>
-                <th>Added at</th>
-                <th>Added by</th>
+                <th>
+                    <div class="th-flex">
+                        <span>Average IMDB Rating</span>
+                        <div class="dropdown">
+                            <button class="dropbtn sort-button">
+                                <img src="{% static 'core/images/down-arrow.png'%}">
+                            </button>
+                            <div class="dropdown-content">
+                              <a href="{% url 'movies' %}?sort_by=vote_average&order=asc">Ascending</a>
+                              <a href="{% url 'movies' %}?sort_by=vote_average&order=desc">Descending</a>
+                            </div>
+                        </div>
+                    </div>
+                </th>
+                <th>
+                    <div class="th-flex">
+                        <span>Average ChitChat Rating</span>
+                        <div class="dropdown">
+                            <button class="dropbtn sort-button">
+                                <img src="{% static 'core/images/down-arrow.png'%}">
+                            </button>
+                            <div class="dropdown-content">
+                              <a href="{% url 'movies' %}?sort_by=average_rating&order=asc">Ascending</a>
+                              <a href="{% url 'movies' %}?sort_by=average_rating&order=desc">Descending</a>
+                            </div>
+                        </div>
+                    </div>
+                </th>
+                <th>
+                    <div class="th-flex">
+                        <span>Added at</span>
+                        <div class="dropdown">
+                            <button class="dropbtn sort-button">
+                                <img src="{% static 'core/images/down-arrow.png'%}">
+                            </button>
+                            <div class="dropdown-content">
+                              <a href="{% url 'movies' %}?sort_by=added_at&order=asc">Ascending</a>
+                              <a href="{% url 'movies' %}?sort_by=added_at&order=desc">Descending</a>
+                            </div>
+                        </div>
+                    </div>
+                </th>
+                <th>
+                    <div class="th-flex">
+                        <span>Added by</span>
+                        <div class="dropdown">
+                            <button class="dropbtn sort-button">
+                                <img src="{% static 'core/images/down-arrow.png'%}">
+                            </button>
+                            <div class="dropdown-content">
+                              <a href="{% url 'movies' %}?sort_by=added_by&order=asc">Ascending</a>
+                              <a href="{% url 'movies' %}?sort_by=added_by&order=desc">Descending</a>
+                            </div>
+                        </div>
+                    </div>
+                </th>
                 <th>Rate</th>
             </tr>
+
+
             {% for movie in movies %}
             <tr>
                 <td>

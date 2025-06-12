@@ -12,6 +12,7 @@ from django.http import JsonResponse
 import requests
 import os
 from dotenv import load_dotenv
+from django.db.models import Avg
 
 from .forms import CustomSignupForm, LoginForm, PostForm, CommentForm
 from .models import Post, Tag, CustomUser, Comment, Movie, Rating
@@ -239,7 +240,12 @@ def like_post(request, post_id):
 
 @login_required(login_url="login")
 def movies(request):
-    movies = Movie.objects.all().order_by("-added_at")
+    sort_by = request.GET.get("sort_by", "added_at")
+    order_prefix = "" if request.GET.get("order") == "asc" else "-"
+    if sort_by == "average_rating":
+        movies = Movie.objects.annotate(avg_rating=Avg('ratings__rating')).order_by(f'{order_prefix}avg_rating')
+    else:
+        movies = Movie.objects.all().order_by(f"{order_prefix}{sort_by}")
     for movie in movies:
         rating_obj = movie.ratings.filter(user=request.user).first()
         movie.current_user_rating = rating_obj.rating if rating_obj else None
@@ -256,7 +262,7 @@ def movies(request):
             messages.success(request, "Movie successfully rated!")
         else:
             messages.success(request, "You have successfully updated your rating!")
-        return redirect('movies')
+        return redirect(request.META.get("HTTP_REFERER", "movies"))
     return render(request, "core/movies.html", context={
         "movies": movies
     })
