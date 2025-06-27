@@ -1,8 +1,12 @@
 asgiref==3.8.1
+certifi==2025.6.15
+charset-normalizer==3.4.2
 dj-database-url==2.3.0 #for postgres online db
 Django==5.1.7
 django-crispy-forms==2.3
+djangorestframework==3.16.0
 gunicorn==23.0.0 #for web service
+idna==3.10
 packaging==24.2
 pillow==11.1.0
 psycopg2-binary==2.9.10 #for postgres online db
@@ -11,4 +15,5 @@ requests==2.32.3
 sqlparse==0.5.3
 typing_extensions==4.12.2
 tzdata==2025.1
+urllib3==2.5.0
 whitenoise==6.9.0 #to serve static files on render
